@@ -43,16 +43,14 @@ out/
 atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-.idea/replstate.xml
+.idea
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-
-# Editor-based Rest Client
-.idea/httpRequests
+git rm -r --cached .
 ### Go template
 # Binaries for programs and plugins
 *.exe
