@@ -1,0 +1,10 @@
+package: github.com/francescofrontera/ks-job-uploader
+import:
+- package: github.com/docker/docker
+  subpackages:
+  - api/types
+  - api/types/container
+  - api/types/mount
+  - client
+- package: github.com/gin-gonic/gin
+- package: github.com/go-redis/redis

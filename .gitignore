@@ -69,3 +69,6 @@ fabric.properties
 
 # FE
 /frontend/node_modules
+
+# GO VENDOR
+vendor/
