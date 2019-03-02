@@ -16,7 +16,7 @@ func RedisClient(addr string, pwd string, db int, logger *log.Logger) *RedisConf
 		Password: pwd,
 		DB:       db,
 	})
-
+	
 	_, err := cli.Ping().Result(); if err != nil {
 		logger.Fatalf("An error occured during init of DB: %v", err)
 	}

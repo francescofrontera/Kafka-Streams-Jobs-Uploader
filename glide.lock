@@ -1,5 +1,5 @@
 hash: 9c98e9fe133635366a825384c8a8e094b1d582d4c374423f00c7bdf4cad9b7ed
-updated: 2019-01-21T12:48:31.953263+01:00
+updated: 2019-01-31T10:08:04.319273+01:00
 imports:
 - name: github.com/docker/distribution
   version: b75069ef13a1de846c0cdf964f5917f5b00c1a47
@@ -7,7 +7,7 @@ imports:
   - digestset
   - reference
 - name: github.com/docker/docker
-  version: 5ec31380a5d3ea92fc68e53cd1fc96f11ac02e6e
+  version: 5a2f15b5d52740f123854526fdc54afd29bd17ad
   subpackages:
   - api
   - api/types
@@ -36,15 +36,22 @@ imports:
 - name: github.com/docker/go-units
   version: 2fb04c6466a548a03cb009c5569ee1ab1e35398e
 - name: github.com/gin-contrib/sse
-  version: 22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae
+  version: a7658810eb745c2f22927282dea478278103a897
 - name: github.com/gin-gonic/gin
-  version: f38a3fe65f102dd765e097166e6a41f9e99777f6
+  version: d27685e714cb0b9375e0c9d3ca3df5a6a4945a6c
   subpackages:
   - binding
   - internal/json
   - render
 - name: github.com/go-redis/redis
-  version: ce19d9c40266a99af7d77f4a2344e4dd905e5e55
+  version: 0d65bf56df00166a66f0d4665ed4be7e82053b3e
+  subpackages:
+  - internal
+  - internal/consistenthash
+  - internal/hashtag
+  - internal/pool
+  - internal/proto
+  - internal/util
 - name: github.com/gogo/protobuf
   version: 8e4a75f11384d0fb2188d872d456407e41f33fc0
   subpackages:
@@ -64,7 +71,7 @@ imports:
 - name: github.com/modern-go/reflect2
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/opencontainers/go-digest
-  version: c9281466c8b2f606084ac71339773efd177436e7
+  version: 4eb64ca734023ea9a10c70ff11dc0e3f69d38482
 - name: github.com/opencontainers/image-spec
   version: befc3cba3ffdf76e2f72f52a248a20a2727cc4c9
   subpackages:
@@ -73,16 +80,16 @@ imports:
 - name: github.com/pkg/errors
   version: ffb6e22f01932bf7ac35e0bad9be11f01d1c8685
 - name: github.com/ugorji/go
-  version: 772ced7fd4c2f6322c07537a9a93b68d74551fa6
+  version: ee1426cffec05e61aaf15dad53bac697c48546ed
   subpackages:
   - codec
 - name: golang.org/x/net
-  version: ed066c81e75eba56dd9bd2139ade88125b855585
+  version: d26f9f9a57f3fab6a695bec0d84433c2c50f8bbf
   subpackages:
   - internal/socks
   - proxy
 - name: golang.org/x/sys
-  version: 770c60269bf0ef965e9e7ac8bedcb6bca2a1cefd
+  version: aca44879d5644da7c5b8ec6a1115e9b6ea6c40d9
   subpackages:
   - unix
   - windows

@@ -1,31 +1,24 @@
 version: '2'
 
 services:
-#  zookeeper:
-#    image: wurstmeister/zookeeper
-#    ports:
-#    - "2181:2181"
-#  kafka:
-#    image: wurstmeister/kafka
-#    ports:
-#    - "9092"
-#    environment:
-#      KAFKA_ADVERTISED_HOST_NAME: localhost
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#    volumes:
-#    - /var/run/docker.sock:/var/run/docker.sock
-  redis:
-    image: 'bitnami/redis:latest'
-    environment:
-    - ALLOW_EMPTY_PASSWORD=yes
-    - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
-    labels:
-      kompose.service.type: nodeport
-    ports:
-    - '6379:6379'
+  app:
+    image: golang:1.7.0-alpine
     volumes:
-    - 'redis_data:/bitnami/redis'
+      - .:/go/src/github.com/francescofrontera/ks-job-uploader
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /go/src/github.com/francescofrontera/ks-job-uploader
+    command: go run app.go
+    links:
+      - redis
+    environment:
+      SERVER_ADDRESS: localhost:8080
+      REDIS_ADDRESS: "redis:6379"
+      REDIS_DB: 0
+      REDIS_PWD: ""
 
-volumes:
-  redis_data:
-    driver: local
+
+
+  redis:
+    image: redis:5.0
+    ports:
+      - '6379:6379'

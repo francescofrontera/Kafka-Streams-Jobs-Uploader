@@ -20,6 +20,8 @@ type DockerClientResult struct {
 	log *log.Logger
 }
 
+const BASIC_IMAGE_NAME  = "base_image_for_jar"
+
 func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 	cli, error := client.NewClientWithOpts(client.WithVersion(clientVersion)); if error != nil {
 		logger.Fatalf("An error occured during init of docker client: %v", error)
@@ -37,38 +39,35 @@ func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 
 /* DockerClient utils */
 func getDockerFileCtx() (*os.File, error) {
-	ctx, error := os.Open("")
+	ctx, error := os.Open("/go/src/github.com/francescofrontera/ks-job-uploader/docker/docker_as_t.tar.gz")
 	return ctx, error
 }
 
 /* Docker Client Result methods */
-func (dcb *DockerClientResult) BuildImage(fileName string) string {
-	dockerBuildContext, _ := getDockerFileCtx()
-	logger := dcb.log
+func (dcb *DockerClientResult) BuildImage() error {
+	dockerBuildContext, errF := getDockerFileCtx(); if errF != nil {
+		return errF
+	}
+
 	defer dockerBuildContext.Close()
 
 	cli := dcb.dockerClient
 	ctx := dcb.ctx
 
-	imageName := utils.NormalizeJarName(fileName)
-
 	buildOptions := types.ImageBuildOptions{
-		Tags: []string{imageName},
+		Tags: []string{BASIC_IMAGE_NAME},
 		Dockerfile: "docker/Dockerfile",
-		BuildArgs: map[string]*string{
-			"JAR_TO_EXECUTE": &fileName,
-		},
+		Context: dockerBuildContext,
 	}
 
 	response, err := cli.ImageBuild(ctx, dockerBuildContext, buildOptions); if err != nil {
-		logger.Fatalf("Error during build image caused: %v", err)
+		return err
 	}
 
 	io.Copy(os.Stdout, response.Body)
 
 	defer response.Body.Close()
-
-	return imageName
+	return nil
 }
 
 
@@ -78,7 +77,7 @@ func (dcb *DockerClientResult) RunContainer(jarToMount, mainClass string) (strin
 	ctx := dcb.ctx
 
 	containerConfig := &container.Config{
-		Image: "base_image_jar",
+		Image: BASIC_IMAGE_NAME,
 		Tty:   true,
 		Env: []string{
 			fmt.Sprintf("JAR_TO_EXECUTE=%s", jarToMount),
