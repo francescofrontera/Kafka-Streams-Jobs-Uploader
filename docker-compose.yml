@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: golang:1.7.0-alpine
+    image: golang:1.11.1-alpine
     volumes:
       - .:/go/src/github.com/francescofrontera/ks-job-uploader
       - /var/run/docker.sock:/var/run/docker.sock
