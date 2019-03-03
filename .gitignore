@@ -36,23 +36,12 @@ cmake-build-release/
 # IntelliJ
 out/
 
-# mpeltonen/sbt-idea plugin
-.idea_modules/
-
 # JIRA plugin
 atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-.idea/replstate.xml
+.idea
 
-# Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
-
-# Editor-based Rest Client
-.idea/httpRequests
 ### Go template
 # Binaries for programs and plugins
 *.exe
@@ -69,3 +58,6 @@ fabric.properties
 
 # FE
 /frontend/node_modules
+
+# GO VENDOR
+vendor/
