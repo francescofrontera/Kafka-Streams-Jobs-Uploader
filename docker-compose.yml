@@ -2,21 +2,26 @@ version: '2'
 
 services:
   app:
-    image: golang:1.11.1-alpine
+    image: golang:1.11.1
     volumes:
       - .:/go/src/github.com/francescofrontera/ks-job-uploader
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /go/src/github.com/francescofrontera/ks-job-uploader
-    command: go run app.go
+    command: >
+      bash -c "go get github.com/Masterminds/glide
+      && glide install
+      && go run app.go"
     links:
       - redis
     environment:
-      SERVER_ADDRESS: localhost:8080
+      SERVER_ADDRESS: ":8080"
       REDIS_ADDRESS: "redis:6379"
       REDIS_DB: 0
       REDIS_PWD: ""
+    ports:
+      - 8080:8080
 
   redis:
     image: redis:5.0
     ports:
-      - '6379:6379'
+      - 6379:6379

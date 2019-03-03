@@ -25,7 +25,7 @@ func main() {
 
 
 	/* HANDLERS */
-	jarHandler := api.NewJarHandlerFunction(dockerClient, db)
+	jarHandler := api.NewJarHandlerFunction(dockerClient, db, appLogger)
 
 	route := gin.Default()
 

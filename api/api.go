@@ -2,38 +2,44 @@ package api
 
 import (
 	"fmt"
+	"github.com/francescofrontera/ks-job-uploader/models"
 	"github.com/francescofrontera/ks-job-uploader/services"
+	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/francescofrontera/ks-job-uploader/models"
-	"github.com/gin-gonic/gin"
 )
+
+//FIXME: Move this const in conf file
+const WorkDir = "/go/src/github.com/francescofrontera/ks-job-uploader"
 
 type JarHandler struct {
 	dockerClient *services.DockerClientResult
 	redisClient *services.RedisConf
+	log *log.Logger
 }
 
-func NewJarHandlerFunction(dClient *services.DockerClientResult, rClient *services.RedisConf) *JarHandler {
+func NewJarHandlerFunction(dClient *services.DockerClientResult, rClient *services.RedisConf, logger *log.Logger) *JarHandler {
 	return &JarHandler{
 		dockerClient: dClient,
 		redisClient: rClient,
+		log: logger,
 	}
 }
 
 func (jarHandler *JarHandler) UploadHandler(gctx *gin.Context) {
+	jarsPath := strings.Join([]string{WorkDir, "jars"}, "/")
+
+	if _, error := os.Stat(jarsPath); os.IsNotExist(error) {
+		os.Mkdir(jarsPath, os.ModePerm)
+	}
+
 	file, err := gctx.FormFile("uploadFile"); if err != nil {
-		panic(err) //dont do this
+		jarHandler.log.Fatalf("An error occured when upload JAR file %v", err) //dont do this
 	}
 
-	workdir, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-
-	dst := strings.Join([]string{workdir, "jars", file.Filename}, "/")
+	dst := strings.Join([]string{WorkDir, "jars", file.Filename}, "/")
 	if err := gctx.SaveUploadedFile(file, dst); err != nil {
 		gctx.JSON(http.StatusBadRequest, gin.H{
 			"error":  fmt.Sprintf("upload file error %s", err.Error()),
