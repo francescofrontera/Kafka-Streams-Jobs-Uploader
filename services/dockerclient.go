@@ -13,14 +13,13 @@ import (
 	"os"
 )
 
-/* Docker Client Initialization */
 type DockerClientResult struct {
 	dockerClient *client.Client
 	ctx context.Context
 	log *log.Logger
 }
 
-const BASIC_IMAGE_NAME  = "base_image_for_jar"
+const BasicImageName = "ks_base_image"
 
 func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 	cli, error := client.NewClientWithOpts(client.WithVersion(clientVersion)); if error != nil {
@@ -36,14 +35,11 @@ func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 	}
 }
 
-
-/* DockerClient utils */
 func getDockerFileCtx() (*os.File, error) {
 	ctx, error := os.Open("/go/src/github.com/francescofrontera/ks-job-uploader/docker/docker_as_t.tar.gz")
 	return ctx, error
 }
 
-/* Docker Client Result methods */
 func (dcb *DockerClientResult) BuildImage() error {
 	dockerBuildContext, errF := getDockerFileCtx(); if errF != nil {
 		return errF
@@ -55,7 +51,7 @@ func (dcb *DockerClientResult) BuildImage() error {
 	ctx := dcb.ctx
 
 	buildOptions := types.ImageBuildOptions{
-		Tags: []string{BASIC_IMAGE_NAME},
+		Tags: []string{BasicImageName},
 		Dockerfile: "docker/Dockerfile",
 		Context: dockerBuildContext,
 	}
@@ -77,7 +73,7 @@ func (dcb *DockerClientResult) RunContainer(jarToMount, mainClass string) (strin
 	ctx := dcb.ctx
 
 	containerConfig := &container.Config{
-		Image: BASIC_IMAGE_NAME,
+		Image: BasicImageName,
 		Tty:   true,
 		Env: []string{
 			fmt.Sprintf("JAR_TO_EXECUTE=%s", jarToMount),

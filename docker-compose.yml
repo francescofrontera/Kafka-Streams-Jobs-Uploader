@@ -16,8 +16,6 @@ services:
       REDIS_DB: 0
       REDIS_PWD: ""
 
-
-
   redis:
     image: redis:5.0
     ports:

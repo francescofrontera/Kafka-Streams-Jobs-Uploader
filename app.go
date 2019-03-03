@@ -19,7 +19,6 @@ var (
 func main() {
 	appLogger := log.New(os.Stdout, "KS-JOB-UPLOADER ", log.LstdFlags | log.Lshortfile )
 
-
 	/* Services */
 	db := services.RedisClient(redisAddress, redisPassword, redisDB, appLogger)
 	dockerClient := services.InitClient("1.38", appLogger)
@@ -36,8 +35,8 @@ func main() {
 		v1.POST("/run", jarHandler.RunKSJob)
 	}
 
-	err := dockerClient.BuildImage();  if err != nil {
-		appLogger.Fatalf("ERROR IN DOCKER %s", err.Error())
+	buildImgError := dockerClient.BuildImage();  if buildImgError != nil {
+		appLogger.Fatalf("Error during build base image: %v", buildImgError)
 	}
 
 	defer route.Run(serverAddress)
