@@ -3,7 +3,6 @@ go:
   - 1.11.1
 install:
   - go get github.com/Masterminds/glide
-  - go get golang.org/x/lint/golint
 before_script:
 script:
   - glide install
