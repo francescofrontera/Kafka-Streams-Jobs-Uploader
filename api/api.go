@@ -12,7 +12,11 @@ import (
 )
 
 //FIXME: Move this const in conf file
-const WorkDir = "/go/src/github.com/francescofrontera/ks-job-uploader"
+
+var (
+	WorkDir = os.Getenv("WORK_DIR_PATH")
+)
+
 
 type JarHandler struct {
 	dockerClient *services.DockerClientResult
@@ -35,16 +39,19 @@ func (jarHandler *JarHandler) UploadHandler(gctx *gin.Context) {
 		os.Mkdir(jarsPath, os.ModePerm)
 	}
 
+	//FIXME: using uploadFile
 	file, err := gctx.FormFile("uploadFile"); if err != nil {
 		jarHandler.log.Fatalf("An error occured when upload JAR file %v", err) //dont do this
 	}
 
 	dst := strings.Join([]string{WorkDir, "jars", file.Filename}, "/")
+
 	if err := gctx.SaveUploadedFile(file, dst); err != nil {
 		gctx.JSON(http.StatusBadRequest, gin.H{
 			"error":  fmt.Sprintf("upload file error %s", err.Error()),
 			"status": 400,
 		})
+
 		return
 	}
 

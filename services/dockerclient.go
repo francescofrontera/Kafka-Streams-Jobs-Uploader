@@ -82,6 +82,8 @@ func (dcb *DockerClientResult) RunContainer(jarToMount, mainClass string) (strin
 	}
 
 	sourcePath, targetPath := utils.GetPathToJar(jarToMount)
+	log.Printf("SourcePath: %s, TargetPath: %s", sourcePath, targetPath)
+
 	hostConfig := &container.HostConfig{
 		Mounts: []mount.Mount{
 			{
@@ -92,7 +94,11 @@ func (dcb *DockerClientResult) RunContainer(jarToMount, mainClass string) (strin
 		},
 	}
 
-	resp, err := cli.ContainerCreate(ctx, containerConfig, hostConfig, nil, ""); if err != nil {
+	resp, err := cli.ContainerCreate(ctx,
+		containerConfig,
+		hostConfig,
+		nil,
+		""); if err != nil {
 		return "", err
 	}
 

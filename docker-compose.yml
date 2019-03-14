@@ -8,14 +8,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /go/src/github.com/francescofrontera/ks-job-uploader
     command: >
-      bash -c "go get github.com/Masterminds/glide
-      && glide install
-      && go run app.go"
+      bash -c "go run main.go"
     links:
       - redis
     environment:
       SERVER_ADDRESS: ":8080"
       REDIS_ADDRESS: "redis:6379"
+      WORK_DIR_PATH: /go/src/github.com/francescofrontera/ks-job-uploader
       REDIS_DB: 0
       REDIS_PWD: ""
     ports:
