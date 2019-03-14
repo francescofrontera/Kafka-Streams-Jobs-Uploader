@@ -15,6 +15,7 @@ services:
       SERVER_ADDRESS: ":8080"
       REDIS_ADDRESS: "redis:6379"
       WORK_DIR_PATH: /go/src/github.com/francescofrontera/ks-job-uploader
+      JARS_FOLDER: /path/to/jar/foldes
       REDIS_DB: 0
       REDIS_PWD: ""
     ports:

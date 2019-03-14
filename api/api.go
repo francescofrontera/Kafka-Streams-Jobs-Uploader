@@ -11,8 +11,6 @@ import (
 	"strings"
 )
 
-//FIXME: Move this const in conf file
-
 var (
 	WorkDir = os.Getenv("WORK_DIR_PATH")
 )
