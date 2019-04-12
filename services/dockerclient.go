@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
 type DockerClientResult struct {
@@ -20,6 +21,11 @@ type DockerClientResult struct {
 }
 
 const BasicImageName = "ks_base_image"
+
+//FIXME: Move this cons in dedicate files
+var (
+	WorkDir = os.Getenv("WORK_DIR_PATH")
+)
 
 func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 	cli, error := client.NewClientWithOpts(client.WithVersion(clientVersion)); if error != nil {
@@ -35,8 +41,10 @@ func InitClient(clientVersion string, logger *log.Logger)  *DockerClientResult {
 	}
 }
 
+//FIXME: Create tar dir, after that using as ctx
 func getDockerFileCtx() (*os.File, error) {
-	ctx, error := os.Open("/go/src/github.com/francescofrontera/ks-job-uploader/docker/docker_as_t.tar.gz")
+	dockerTarPath := strings.Join([]string{WorkDir, "docker/docker_as_t.tar.gz"}, "/")
+	ctx, error := os.Open(dockerTarPath)
 	return ctx, error
 }
 

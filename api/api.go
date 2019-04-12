@@ -15,7 +15,6 @@ var (
 	WorkDir = os.Getenv("WORK_DIR_PATH")
 )
 
-
 type JarHandler struct {
 	dockerClient *services.DockerClientResult
 	redisClient *services.RedisConf
@@ -60,6 +59,7 @@ func (jarHandler *JarHandler) RunKSJob(gctx *gin.Context) {
 	dockerClient := jarHandler.dockerClient
 
 	runJar := &models.RunJar{}
+
 	if error := gctx.BindJSON(runJar); error == nil {
 		containerID, dockerClientError := dockerClient.RunContainer(runJar.JarName, runJar.MainClass)
 		if dockerClientError != nil {
