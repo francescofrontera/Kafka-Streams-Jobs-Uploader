@@ -13,6 +13,8 @@
 
 vendor/*
 
+jars/*
+
 javascript/node_modules/
 javascript/dist/
 javascript/npm-debug.log*
